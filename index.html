@@ -7,160 +7,82 @@
   <title>astrld // dev</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg: #0d1117;
-      --bg2: #161b22;
-      --border: #30363d;
-      --text: #e6edf3;
-      --muted: #7d8590;
-      --accent: #58a6ff;
-      --green: #3fb950;
-      --purple: #bc8cff;
-      --amber: #d29922;
-      --tag-bg: #1c2128;
+      --bg: #0d1117; --bg2: #161b22; --border: #30363d; --text: #e6edf3;
+      --muted: #7d8590; --accent: #58a6ff; --green: #3fb950;
+      --purple: #bc8cff; --amber: #d29922; --tag-bg: #1c2128;
     }
-
     body {
-      background: var(--bg);
-      color: var(--text);
+      background: var(--bg); color: var(--text);
       font-family: 'Courier New', Courier, monospace;
-      font-size: 15px;
-      line-height: 1.7;
-      min-height: 100vh;
-      padding: 0 1rem;
+      font-size: 15px; line-height: 1.7; min-height: 100vh; padding: 0 1rem;
     }
-
-    .wrap {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 4rem 0 6rem;
-    }
-
-    .prompt-line {
-      color: var(--muted);
-      font-size: 13px;
-      min-height: 1.4em;
-    }
-
+    .wrap { max-width: 720px; margin: 0 auto; padding: 4rem 0 6rem; }
+    .prompt-line { color: var(--muted); font-size: 13px; min-height: 1.4em; }
     .prompt-line .u { color: var(--green); }
-
     .blink {
-      display: inline-block;
-      width: 9px;
-      height: 14px;
-      background: var(--text);
-      margin-left: 1px;
-      vertical-align: middle;
+      display: inline-block; width: 9px; height: 14px;
+      background: var(--text); margin-left: 1px; vertical-align: middle;
       animation: blink 1s step-end infinite;
     }
-
     @keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
-
     .hidden { display: none; }
-
     h1 {
-      font-size: 26px;
-      font-weight: 400;
-      color: var(--text);
-      margin: 2rem 0 0.25rem;
-      opacity: 0;
-      transition: opacity 0.5s ease;
+      font-size: 26px; font-weight: 400; color: var(--text);
+      margin: 2rem 0 0.25rem; opacity: 0; transition: opacity 0.5s ease;
     }
-
     h1.show { opacity: 1; }
     h1 .slash { color: var(--muted); }
-
     .tagline {
-      color: var(--muted);
-      font-size: 14px;
-      margin-bottom: 3rem;
-      opacity: 0;
-      transition: opacity 0.5s ease 0.2s;
+      color: var(--muted); font-size: 14px; margin-bottom: 3rem;
+      opacity: 0; transition: opacity 0.5s ease 0.2s;
     }
-
     .tagline.show { opacity: 1; }
-
     .section { margin-bottom: 3rem; }
-
     .section-label {
-      color: var(--muted);
-      font-size: 13px;
-      margin-bottom: 1rem;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 0.5rem;
-      min-height: 1.4em;
+      color: var(--muted); font-size: 13px; margin-bottom: 1rem;
+      border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; min-height: 1.4em;
     }
-
-    .section-label span { color: var(--amber); }
-
-    .tag-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
+    .section-label .u { color: var(--green); }
+    .section-label .cmd { color: var(--amber); }
+    .tag-grid { display: flex; flex-wrap: wrap; gap: 8px; }
     .tag {
-      background: var(--tag-bg);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      padding: 4px 12px;
-      font-size: 13px;
-      color: var(--text);
-      cursor: default;
-      opacity: 0;
-      transform: translateX(-8px);
+      background: var(--tag-bg); border: 1px solid var(--border);
+      border-radius: 4px; padding: 4px 12px; font-size: 13px; color: var(--text);
+      cursor: default; opacity: 0; transform: translateX(-8px);
       transition: opacity 0.25s ease, transform 0.25s ease, border-color 0.15s, color 0.15s;
     }
-
-    .tag.show {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
+    .tag.show { opacity: 1; transform: translateX(0); }
     .tag:hover { border-color: var(--accent); color: var(--accent); }
-
-    .tag.tool { color: var(--purple); border-color: #3a2f5e; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
-    .tag.tool:hover { border-color: var(--purple); color: var(--purple); opacity: 0.8; }
-
-    .works-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 12px;
+    .tag.tool {
+      color: var(--purple); border-color: #3a2f5e; cursor: pointer;
+      text-decoration: none; display: inline-flex; align-items: center;
     }
-
-    .empty-state {
-      color: var(--muted);
-      font-size: 13px;
-      border: 1px dashed var(--border);
-      border-radius: 6px;
-      padding: 1.5rem;
-      text-align: center;
-      opacity: 0;
-      transition: opacity 0.5s ease;
+    .tag.tool:hover { border-color: var(--purple); color: var(--purple); }
+    .works-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+    .work-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 6px; padding: 1rem 1.25rem;
+      opacity: 0; transition: opacity 0.5s ease, border-color 0.15s;
     }
-
-    .empty-state.show { opacity: 1; }
-
+    .work-card.show { opacity: 1; }
+    .work-card:hover { border-color: var(--accent); }
+    .work-card .name { color: var(--accent); font-size: 14px; margin-bottom: 4px; }
+    .work-card .desc { color: var(--muted); font-size: 13px; line-height: 1.5; }
+    .work-card .card-tags { margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap; }
+    .work-card .card-tags span {
+      font-size: 11px; padding: 2px 8px; border-radius: 3px;
+      background: var(--tag-bg); border: 1px solid var(--border); color: var(--muted);
+    }
+    .work-card .gh-link { font-size: 13px; color: var(--accent); margin-top: 10px; display: inline-block; }
     .footer {
-      margin-top: 4rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--border);
-      color: var(--muted);
-      font-size: 13px;
-      opacity: 0;
-      transition: opacity 0.5s ease;
+      margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--border);
+      color: var(--muted); font-size: 13px; opacity: 0; transition: opacity 0.5s ease;
     }
-
     .footer.show { opacity: 1; }
-
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
-
-    .section-block {
-      opacity: 0;
-      transition: opacity 0.4s ease;
-    }
+    .section-block { opacity: 0; transition: opacity 0.4s ease; }
     .section-block.show { opacity: 1; }
   </style>
 </head>
@@ -174,22 +96,16 @@
   <p class="tagline" id="tagline">developer &amp; reverse engineer</p>
 
   <div class="section section-block" id="sec-lang">
-    <p class="section-label" id="label-lang"><span class="u">astrid</span>@dev <span class="u">~</span> $ <span id="type3"></span><span class="blink" id="cur3"></span></p>
+    <p class="section-label"><span class="u">astrid</span>@dev <span class="u">~</span> $ <span class="cmd" id="cmd3"></span><span id="type3"></span><span class="blink" id="cur3"></span></p>
     <div class="tag-grid" id="lang-grid">
-      <span class="tag">Java</span>
-      <span class="tag">Kotlin</span>
-      <span class="tag">Python</span>
-      <span class="tag">Rust</span>
-      <span class="tag">C#</span>
-      <span class="tag">C++</span>
-      <span class="tag">Go</span>
-      <span class="tag">AHK</span>
-      <span class="tag">SQL</span>
+      <span class="tag">Java</span><span class="tag">Kotlin</span><span class="tag">Python</span>
+      <span class="tag">Rust</span><span class="tag">C#</span><span class="tag">C++</span>
+      <span class="tag">Go</span><span class="tag">AHK</span><span class="tag">SQL</span>
     </div>
   </div>
 
   <div class="section section-block" id="sec-tools">
-    <p class="section-label" id="label-tools"><span class="u">astrid</span>@dev <span class="u">~</span> $ <span id="type4"></span><span class="blink" id="cur4"></span></p>
+    <p class="section-label"><span class="u">astrid</span>@dev <span class="u">~</span> $ <span class="cmd" id="cmd4"></span><span id="type4"></span><span class="blink" id="cur4"></span></p>
     <div class="tag-grid" id="tools-grid">
       <a class="tag tool" href="https://www.nsa.gov/ghidra" target="_blank" rel="noopener">Ghidra</a>
       <a class="tag tool" href="https://www.jetbrains.com/" target="_blank" rel="noopener">IntelliJ</a>
@@ -197,9 +113,14 @@
   </div>
 
   <div class="section section-block" id="sec-works">
-    <p class="section-label"><span class="u">astrid</span>@dev <span class="u">~</span> $ <span style="color:var(--amber)">ls</span> ./works</p>
+    <p class="section-label"><span class="u">astrid</span>@dev <span class="u">~</span> $ <span class="cmd" id="cmd5"></span><span id="type5"></span><span class="blink" id="cur5"></span></p>
     <div class="works-grid">
-      <div class="empty-state" id="empty">// no works listed yet</div>
+      <div class="work-card" id="work1">
+        <p class="name">// NatroMacro</p>
+        <p class="desc">A macro client for Bee Swarm Simulator with automation features.</p>
+        <div class="card-tags"><span>AHK</span></div>
+        <a class="gh-link" href="https://github.com/NatroTeam/NatroMacro" target="_blank" rel="noopener">→ github</a>
+      </div>
     </div>
   </div>
 
@@ -209,18 +130,33 @@
 
 </div>
 <script>
-  function typeInto(el, text, speed, done) {
-    let i = 0;
-    function tick() {
-      if (i <= text.length) {
+  // Types a full command entirely in amber
+  function typeCommand(cmdEl, restEl, cmd, rest, speed) {
+    return new Promise(resolve => {
+      let full = cmd + rest;
+      let i = 0;
+      function tick() {
+        i++;
+        cmdEl.textContent = full.slice(0, i);
+        restEl.textContent = '';
+        if (i < full.length) setTimeout(tick, speed);
+        else resolve();
+      }
+      tick();
+    });
+  }
+
+  function typeInto(el, text, speed) {
+    return new Promise(resolve => {
+      let i = 0;
+      function tick() {
         el.textContent = text.slice(0, i);
         i++;
-        setTimeout(tick, speed);
-      } else {
-        if (done) done();
+        if (i <= text.length) setTimeout(tick, speed);
+        else resolve();
       }
-    }
-    tick();
+      tick();
+    });
   }
 
   function hideCursor(id) {
@@ -228,64 +164,75 @@
     if (c) c.style.display = 'none';
   }
 
-  function showTags(gridId, delay) {
-    const tags = document.querySelectorAll('#' + gridId + ' .tag');
-    tags.forEach((tag, i) => {
-      setTimeout(() => tag.classList.add('show'), delay + i * 80);
+  function showTags(gridId) {
+    return new Promise(resolve => {
+      const tags = Array.from(document.querySelectorAll('#' + gridId + ' .tag, #' + gridId + ' a.tag'));
+      tags.forEach((tag, i) => setTimeout(() => tag.classList.add('show'), i * 80));
+      setTimeout(resolve, tags.length * 80 + 200);
     });
   }
 
-  const t = (ms) => new Promise(r => setTimeout(r, ms));
+  const t = ms => new Promise(r => setTimeout(r, ms));
 
   async function run() {
     await t(400);
 
-    // Step 1: type "ls ./"
-    typeInto(document.getElementById('type1'), 'ls ./', 60, null);
-    await t(60 * 6 + 300);
+    // ls ./
+    await typeCommand(document.getElementById('type1'), document.getElementById('type1'), 'ls', ' ./', 60);
+    // rewrite: just use typeInto for line1 since it's one span
+    document.getElementById('type1').textContent = '';
+    const l1cmd = document.createElement('span');
+    l1cmd.style.color = 'var(--amber)';
+    l1cmd.textContent = 'ls';
+    const l1rest = document.createElement('span');
+    document.getElementById('type1').appendChild(l1cmd);
+    document.getElementById('type1').appendChild(l1rest);
+    await typeCommand(l1cmd, l1rest, 'ls', ' ./', 60);
+    await t(300);
     hideCursor('cur1');
 
-    // Step 2: show "loading..."
+    // listing...
     document.getElementById('line2').classList.remove('hidden');
-    typeInto(document.getElementById('type2'), 'loading...', 40, null);
-    await t(40 * 11 + 600);
+    await typeInto(document.getElementById('type2'), 'listing...', 40);
+    await t(600);
     hideCursor('cur2');
-    await t(300);
-
-    // Step 3: fade out loading line, show header
-    document.getElementById('line2').style.opacity = '0';
+    await t(200);
     document.getElementById('line2').style.transition = 'opacity 0.3s';
-    await t(300);
+    document.getElementById('line2').style.opacity = '0';
+    await t(350);
     document.getElementById('line2').style.display = 'none';
 
+    // header
     document.getElementById('header').classList.add('show');
     document.getElementById('tagline').classList.add('show');
     await t(700);
 
-    // Step 4: show languages section, type "cat languages.txt"
+    // languages
     document.getElementById('sec-lang').classList.add('show');
-    await t(100);
-    typeInto(document.getElementById('type3'), 'cat languages.txt', 55, null);
-    await t(55 * 18 + 200);
+    await t(150);
+    await typeCommand(document.getElementById('cmd3'), document.getElementById('type3'), 'cat', ' languages.txt', 55);
     hideCursor('cur3');
     await t(100);
-    showTags('lang-grid', 0);
-    await t(9 * 80 + 300);
+    await showTags('lang-grid');
 
-    // Step 5: show tools section, type "cat tools.txt"
+    // tools
     document.getElementById('sec-tools').classList.add('show');
-    await t(100);
-    typeInto(document.getElementById('type4'), 'cat tools.txt', 55, null);
-    await t(55 * 14 + 200);
+    await t(150);
+    await typeCommand(document.getElementById('cmd4'), document.getElementById('type4'), 'cat', ' tools.txt', 55);
     hideCursor('cur4');
     await t(100);
-    showTags('tools-grid', 0);
-    await t(2 * 80 + 300);
+    await showTags('tools-grid');
 
-    // Step 6: show works + footer
+    // works
     document.getElementById('sec-works').classList.add('show');
-    document.getElementById('empty').classList.add('show');
-    await t(300);
+    await t(150);
+    await typeCommand(document.getElementById('cmd5'), document.getElementById('type5'), 'ls', ' ./works', 55);
+    hideCursor('cur5');
+    await t(200);
+    document.getElementById('work1').classList.add('show');
+    await t(400);
+
+    // footer
     document.getElementById('footer').classList.add('show');
   }
 
