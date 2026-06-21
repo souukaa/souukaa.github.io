@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Astrid — developer & reverse engineer" />
+  <title>astrld // dev</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d1117;
+      --bg2: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --muted: #7d8590;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --purple: #bc8cff;
+      --amber: #d29922;
+      --tag-bg: #1c2128;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 15px;
+      line-height: 1.7;
+      min-height: 100vh;
+      padding: 0 1rem;
+    }
+
+    .wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 4rem 0 6rem;
+    }
+
+    .prompt-line {
+      color: var(--muted);
+      font-size: 13px;
+      min-height: 1.4em;
+    }
+
+    .prompt-line .u { color: var(--green); }
+
+    .blink {
+      display: inline-block;
+      width: 9px;
+      height: 14px;
+      background: var(--text);
+      margin-left: 1px;
+      vertical-align: middle;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
+
+    .hidden { display: none; }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 400;
+      color: var(--text);
+      margin: 2rem 0 0.25rem;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    h1.show { opacity: 1; }
+    h1 .slash { color: var(--muted); }
+
+    .tagline {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 3rem;
+      opacity: 0;
+      transition: opacity 0.5s ease 0.2s;
+    }
+
+    .tagline.show { opacity: 1; }
+
+    .section { margin-bottom: 3rem; }
+
+    .section-label {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.5rem;
+      min-height: 1.4em;
+    }
+
+    .section-label span { color: var(--amber); }
+
+    .tag-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 4px 12px;
+      font-size: 13px;
+      color: var(--text);
+      cursor: default;
+      opacity: 0;
+      transform: translateX(-8px);
+      transition: opacity 0.25s ease, transform 0.25s ease, border-color 0.15s, color 0.15s;
+    }
+
+    .tag.show {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .tag:hover { border-color: var(--accent); color: var(--accent); }
+
+    .tag.tool { color: var(--purple); border-color: #3a2f5e; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
+    .tag.tool:hover { border-color: var(--purple); color: var(--purple); opacity: 0.8; }
+
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+    }
+
+    .empty-state {
+      color: var(--muted);
+      font-size: 13px;
+      border: 1px dashed var(--border);
+      border-radius: 6px;
+      padding: 1.5rem;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .empty-state.show { opacity: 1; }
+
+    .footer {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .footer.show { opacity: 1; }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .section-block {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .section-block.show { opacity: 1; }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="prompt-line" id="line1"><span class="u">astrid</span>@dev <span class="u">~</span> $ <span id="type1"></span><span class="blink" id="cur1"></span></p>
+  <p class="prompt-line hidden" id="line2"><span id="type2"></span><span class="blink" id="cur2"></span></p>
+
+  <h1 id="header">astrld <span class="slash">// dev</span></h1>
+  <p class="tagline" id="tagline">developer &amp; reverse engineer</p>
+
+  <div class="section section-block" id="sec-lang">
+    <p class="section-label" id="label-lang"><span class="u">astrid</span>@dev <span class="u">~</span> $ <span id="type3"></span><span class="blink" id="cur3"></span></p>
+    <div class="tag-grid" id="lang-grid">
+      <span class="tag">Java</span>
+      <span class="tag">Kotlin</span>
+      <span class="tag">Python</span>
+      <span class="tag">Rust</span>
+      <span class="tag">C#</span>
+      <span class="tag">C++</span>
+      <span class="tag">Go</span>
+      <span class="tag">AHK</span>
+      <span class="tag">SQL</span>
+    </div>
+  </div>
+
+  <div class="section section-block" id="sec-tools">
+    <p class="section-label" id="label-tools"><span class="u">astrid</span>@dev <span class="u">~</span> $ <span id="type4"></span><span class="blink" id="cur4"></span></p>
+    <div class="tag-grid" id="tools-grid">
+      <a class="tag tool" href="https://www.nsa.gov/ghidra" target="_blank" rel="noopener">Ghidra</a>
+      <a class="tag tool" href="https://www.jetbrains.com/" target="_blank" rel="noopener">IntelliJ</a>
+    </div>
+  </div>
+
+  <div class="section section-block" id="sec-works">
+    <p class="section-label"><span class="u">astrid</span>@dev <span class="u">~</span> $ <span style="color:var(--amber)">ls</span> ./works</p>
+    <div class="works-grid">
+      <div class="empty-state" id="empty">// no works listed yet</div>
+    </div>
+  </div>
+
+  <div class="footer" id="footer">
+    <p>astrid &mdash; <a href="https://github.com/souukaa" target="_blank" rel="noopener">github</a></p>
+  </div>
+
+</div>
+<script>
+  function typeInto(el, text, speed, done) {
+    let i = 0;
+    function tick() {
+      if (i <= text.length) {
+        el.textContent = text.slice(0, i);
+        i++;
+        setTimeout(tick, speed);
+      } else {
+        if (done) done();
+      }
+    }
+    tick();
+  }
+
+  function hideCursor(id) {
+    const c = document.getElementById(id);
+    if (c) c.style.display = 'none';
+  }
+
+  function showTags(gridId, delay) {
+    const tags = document.querySelectorAll('#' + gridId + ' .tag');
+    tags.forEach((tag, i) => {
+      setTimeout(() => tag.classList.add('show'), delay + i * 80);
+    });
+  }
+
+  const t = (ms) => new Promise(r => setTimeout(r, ms));
+
+  async function run() {
+    await t(400);
+
+    // Step 1: type "ls ./"
+    typeInto(document.getElementById('type1'), 'ls ./', 60, null);
+    await t(60 * 6 + 300);
+    hideCursor('cur1');
+
+    // Step 2: show "loading..."
+    document.getElementById('line2').classList.remove('hidden');
+    typeInto(document.getElementById('type2'), 'loading...', 40, null);
+    await t(40 * 11 + 600);
+    hideCursor('cur2');
+    await t(300);
+
+    // Step 3: fade out loading line, show header
+    document.getElementById('line2').style.opacity = '0';
+    document.getElementById('line2').style.transition = 'opacity 0.3s';
+    await t(300);
+    document.getElementById('line2').style.display = 'none';
+
+    document.getElementById('header').classList.add('show');
+    document.getElementById('tagline').classList.add('show');
+    await t(700);
+
+    // Step 4: show languages section, type "cat languages.txt"
+    document.getElementById('sec-lang').classList.add('show');
+    await t(100);
+    typeInto(document.getElementById('type3'), 'cat languages.txt', 55, null);
+    await t(55 * 18 + 200);
+    hideCursor('cur3');
+    await t(100);
+    showTags('lang-grid', 0);
+    await t(9 * 80 + 300);
+
+    // Step 5: show tools section, type "cat tools.txt"
+    document.getElementById('sec-tools').classList.add('show');
+    await t(100);
+    typeInto(document.getElementById('type4'), 'cat tools.txt', 55, null);
+    await t(55 * 14 + 200);
+    hideCursor('cur4');
+    await t(100);
+    showTags('tools-grid', 0);
+    await t(2 * 80 + 300);
+
+    // Step 6: show works + footer
+    document.getElementById('sec-works').classList.add('show');
+    document.getElementById('empty').classList.add('show');
+    await t(300);
+    document.getElementById('footer').classList.add('show');
+  }
+
+  run();
+</script>
+</body>
+</html>
