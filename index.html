@@ -179,7 +179,6 @@
 
     // ls ./
     await typeCommand(document.getElementById('type1'), document.getElementById('type1'), 'ls', ' ./', 60);
-    // rewrite: just use typeInto for line1 since it's one span
     document.getElementById('type1').textContent = '';
     const l1cmd = document.createElement('span');
     l1cmd.style.color = 'var(--amber)';
@@ -191,9 +190,8 @@
     await t(300);
     hideCursor('cur1');
 
-    // listing...
     document.getElementById('line2').classList.remove('hidden');
-    await typeInto(document.getElementById('type2'), 'listing...', 40);
+    await typeInto(document.getElementById('type2'), 'loading...', 40);
     await t(600);
     hideCursor('cur2');
     await t(200);
